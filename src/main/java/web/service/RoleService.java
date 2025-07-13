@@ -14,4 +14,5 @@ public interface RoleService {
     List<Role> findAll();
 
     Set<Role> reSetRoles(Set<Role> roles);
+    List<String> findAllRoleName();
 }

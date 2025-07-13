@@ -9,13 +9,13 @@ import java.util.Set;
 
 public interface UserService {
 
-    User addUser(User user, String password, Set<Role> roles);
+    Optional<User> addUser(User user, String password, Set<Role> roles);
 
-    User updateUser(User user, String password, Set<Role> roles);
+    Optional<User> updateUser(User user, String password, Set<Role> roles);
 
-    void deleteUser(Long id);
+    Optional<Long> deleteUser(Long id);
 
-    User findUser(Long id);
+    Optional<User> findUser(Long id);
 
     List<User> getAllUsers();
 

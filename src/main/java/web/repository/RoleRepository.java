@@ -11,4 +11,5 @@ public interface RoleRepository {
     Optional<Role> findByName(String name);
 
     List<Role> findAll();
+    List<String> findAllRoleName();
 }

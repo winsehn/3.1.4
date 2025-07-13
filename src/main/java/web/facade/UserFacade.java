@@ -9,7 +9,9 @@ public interface UserFacade {
 
     UserDto updateUser(UserDto userDto, String password);
 
-    void deleteUser(Long id);
+    Long deleteUser(Long id);
 
     List<UserDto> getAllUsers();
+
+    UserDto findByEmail(String email);
 }

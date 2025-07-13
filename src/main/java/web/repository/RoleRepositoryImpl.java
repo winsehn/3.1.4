@@ -33,4 +33,9 @@ public class RoleRepositoryImpl implements RoleRepository {
         return em.createQuery("SELECT r FROM Role r", Role.class).getResultList();
     }
 
+    @Override
+    public List<String> findAllRoleName() {
+        return em.createQuery("SELECT r.name FROM Role r", String.class).getResultList();
+    }
+
 }

@@ -25,24 +25,29 @@ public class UserFacadeImpl implements UserFacade {
     public UserDto addUser(UserDto userDto, String password) {
         return userMapper.toDto(userService.addUser(userMapper.toEntity(userDto),
                 password,
-                mapRoles(userDto.getRoles())));
+                mapRoles(userDto.getRoles())).orElseThrow());
     }
 
     @Override
     public UserDto updateUser(UserDto userDto, String password) {
         return userMapper.toDto(userService.updateUser(userMapper.toEntity(userDto),
                 password,
-                mapRoles(userDto.getRoles())));
+                mapRoles(userDto.getRoles())).orElseThrow());
     }
 
     @Override
-    public void deleteUser(Long id) {
-        userService.deleteUser(id);
+    public Long deleteUser(Long id) {
+        return userService.deleteUser(id).orElseThrow();
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         return userService.getAllUsers().stream().map(userMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDto findByEmail(String email) {
+        return userService.findByEmail(email).map(userMapper::toDto).orElseThrow();
     }
 
     private Set<Role> mapRoles(Set<String> set) {

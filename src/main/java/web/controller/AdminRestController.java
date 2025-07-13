@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import web.dto.UserDto;
 import web.dto.UserDtoRequest;
 import web.facade.UserFacade;
+import web.service.RoleService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,20 +23,21 @@ import java.util.List;
 public class AdminRestController {
 
     private final UserFacade userFacade;
+    private final RoleService roleService;
 
-    public AdminRestController(UserFacade userFacade) {
+    public AdminRestController(UserFacade userFacade, RoleService roleService) {
         this.userFacade = userFacade;
+        this.roleService = roleService;
     }
 
     @GetMapping("/users")
-    public List<UserDto> getAllUsers() {
-        return userFacade.getAllUsers();
+    public ResponseEntity<List <UserDto>> getAllUsers() {
+        return ResponseEntity.ok(userFacade.getAllUsers());
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
-        userFacade.deleteUser(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Long> deleteUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userFacade.deleteUser(id));
     }
 
     @PostMapping(value = "/users")
@@ -47,5 +50,13 @@ public class AdminRestController {
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDtoRequest userDtoRequest) {
         UserDto updatedUser = userFacade.updateUser(userDtoRequest.getUserDto(), userDtoRequest.getPassword());
         return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
+    }
+    @GetMapping(value = "/me")
+    public ResponseEntity<UserDto> getCurrentUser(Principal principal) {
+         return ResponseEntity.ok(userFacade.findByEmail(principal.getName()));
+    }
+    @GetMapping(value = "/roles")
+    public ResponseEntity<List<String>> getAllRoles() {
+        return ResponseEntity.ok(roleService.findAllRoleName());
     }
 }

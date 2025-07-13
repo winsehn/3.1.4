@@ -30,7 +30,7 @@ public class BdInit implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         Role adminRole = new Role("admin");
-        adminRole.setRedirect("/admin");
+        adminRole.setRedirect("/admin.html");
         roleService.save(adminRole);
 
         Role userRole = new Role("user");

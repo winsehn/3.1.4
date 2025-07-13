@@ -22,21 +22,22 @@ public class UsersRepositoryImpl implements UsersRepository {
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public Optional<Long> deleteUser(Long id) {
         User findUser = em.find(User.class, id);
         if (findUser != null) {
             em.remove(findUser);
         }
+        return Optional.ofNullable(findUser.getId());
     }
 
     @Override
-    public User findUser(Long id) {
-        return em.find(User.class, id);
+    public Optional<User> findUser(Long id) {
+        return Optional.ofNullable(em.find(User.class, id));
     }
 
     @Override
-    public void updateUser(User user) {
-        em.merge(user);
+    public User updateUser(User user) {
+        return em.merge(user);
     }
 
     @Override
